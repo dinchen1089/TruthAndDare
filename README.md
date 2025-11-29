@@ -140,8 +140,6 @@ TruthOrDare/
 ---
 
 ## 📜 License
+MIT
 
-<img src="Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.27.png" width="300" />
-<img src="Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.30.png" width="300" />
-<img src="Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.38.png" width="300" />
-<img src="Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.22.00.png" width="300" />
+<div style="display: flex; flex-direction: row; gap: 10px;"> <img src="Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.27.png" width="200" /> <img src="Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.30.png" width="200" /> <img src="Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.38.png" width="200" /> <img src="Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.22.00.png" width="200" /> </div>
