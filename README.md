@@ -1,97 +1,148 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 🎮 Truth or Dare - AI Powered Spin the Bottle
 
-# Getting Started
+A modern, interactive **Truth or Dare** party game built with **React Native**. It features a physics-based bottle spinner (using **Skia** & **Reanimated**) and generates infinite, context-aware questions using **OPEN AI API**.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+---
 
-## Step 1: Start Metro
+## ✨ Features
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- **Physics-Based Spinner**: Smooth, realistic 60fps bottle animation using `@shopify/react-native-skia` and `react-native-reanimated`.
+- **AI-Powered Prompts**: Generates unique Truths and Dares on the fly using the **OPEN AI APIS**.
+- **Custom Topics**: Players can input topics (e.g., "School", "Romance", "Food") to steer the AI's questions.
+- **Dynamic Player System**: Supports up to 12 players with auto-assigned colors.
+- **Fair Randomness**: Logic ensures the bottle points exactly to the winning player.
+- **Offline Fallback**: Includes a robust library of static Truths and Dares if the internet is unavailable.
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+---
 
-```sh
-# Using npm
+## 🛠 Tech Stack
+
+- **Framework**: React Native (0.72+)
+- **Language**: TypeScript
+- **Graphics**: @shopify/react-native-skia
+- **Animations**: react-native-reanimated (v3+)
+- **Icons**: lucide-react-native
+---
+
+## 🚀 Getting Started
+
+### 1. Prerequisites
+- Node.js (v18+)
+- React Native CLI (not Expo Go, as Skia requires native code)
+- iOS Simulator (Mac) or Android Emulator
+
+### 2. Initialize Project
+Since this code relies on Native Modules, you must initialize a new React Native project:
+
+```bash
+cd BOTTLE_SPINNER
+```
+
+### 3. Install Dependencies
+Install the required libraries:
+
+```bash
+npm install
+```
+
+### 4. Configure Native Dependencies
+
+**iOS:**
+```bash
+cd ios && pod install && cd ..
+```
+
+**Android:**
+No extra steps usually required for recent React Native versions.
+
+**Babel Config (`babel.config.js`):**
+Add the Reanimated plugin. It must be listed **last**.
+
+```javascript
+module.exports = {
+  presets: ['module:metro-react-native-babel-preset'],
+  plugins: [
+    'react-native-reanimated/plugin',
+  ],
+};
+```
+
+### 5. API Key Configuration
+
+1. Get an API Key from [OPEN AI API KEY](https://platform.openai.com/api-keys).
+2. For quick testing, you can hardcode it in `ai/env.ts`
+
+> **Security Note:** In a production app, never store API keys directly in the client code. Use a proxy server.
+
+### 6. Run the App
+
+**Start Metro Bundler:**
+```bash
 npm start
-
-# OR using Yarn
-yarn start
 ```
 
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+**Run on iOS:**
+```bash
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+**Run on Android:**
+```bash
+npm run android
+```
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+---
 
-## Step 3: Modify your app
+## 📂 Project Structure
 
-Now that you have successfully run the app, let's make changes!
+```
+TruthOrDare/
+├── App.tsx                 # Root component
+├──src
+├── ai
+│   ├── aiservice.ts        # OpenAI/GPT logic (challenge generator, prompts, etc.)
+│   └── env.ts              # API keys, environment configs
+│
+├── components
+│   ├── BottleSpinner.tsx   # Bottle spinner UI + animation
+│   ├── GameScreen.tsx      # Main game screen (truth/dare + challenges)
+│   └── SetupScreen.tsx     # Player setup, number of players, topics, etc.
+│
+├── constants
+│   └── constant.ts         # Static values, enums, config constants
+│
+└── types
+    └── types.ts
+```
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+---
+## 🧩 How It Works
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+1. **Setup**: Users enter player names.
+2. **The Spin**: 
+   - We calculate a random winner index.
+   - We calculate the exact angle required to point the bottle at that player.
+   - We add multiple full rotations (360° * 5) + the target offset to create the animation.
+3. **The Challenge**:
+   - The selected player chooses **Truth** or **Dare**.
+   - Optionally, they enter a **Topic**.
+   - The app calls OPEN AI  API: *"Generate a dare involving [Topic] for a party game..."*
+   - If the API fails, a static question is served from `constants.ts`.
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+---
 
-## Congratulations! :tada:
+## ⚠️ Troubleshooting
 
-You've successfully run and modified your React Native App. :partying_face:
+- **"Skia is not found"**: Make sure you ran `pod install` in the `ios` folder.
+- **Reanimated Crash**: Ensure you cleared the metro cache (`npm start -- --reset-cache`) after adding the babel plugin.
+- **Layout Issues**: The spinner size relies on `Dimensions.get('window').width`. Ensure the device is in Portrait mode.
 
-### Now what?
+---
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+## 📜 License
 
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+MIT
+![alt text](<Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.27.png>) 
+![alt text](<Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.30.png>) 
+![alt text](<Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.38.png>) 
+![alt text](<Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.22.00.png>)

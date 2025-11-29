@@ -1,45 +1,36 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import React, { useState } from 'react';
+import { View, StatusBar } from 'react-native';
+import { Player } from "./src/types/types";
+import { SetupScreen } from './src/components/SetupScreen';
+import { GameScreen } from './src/components/GameScreen';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
 
-  return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
-  );
-}
+// Root Component
+const App = () => {
+  const [gameStarted, setGameStarted] = useState<boolean>(false);
+  const [players, setPlayers] = useState<Player[]>([]);
 
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
+  const handleStartGame = (configuredPlayers: Player[]) => {
+    setPlayers(configuredPlayers);
+    setGameStarted(true);
+  };
+
+  const handleBackToSetup = () => {
+    setGameStarted(false);
+    setPlayers([]);
+  };
 
   return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
+    <View style={{ flex: 1, backgroundColor: '#0f172a' }}>
+      <StatusBar barStyle="light-content" />
+      {!gameStarted ? (
+        <SetupScreen onStartGame={handleStartGame} />
+      ) : (
+        <GameScreen players={players} onBack={handleBackToSetup} />
+      )}
     </View>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+};
 
 export default App;
