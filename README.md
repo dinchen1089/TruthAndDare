@@ -141,8 +141,7 @@ TruthOrDare/
 
 ## 📜 License
 
-MIT
-![alt text](<Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.27.png>) 
-![alt text](<Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.30.png>) 
-![alt text](<Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.38.png>) 
-![alt text](<Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.22.00.png>)
+<img src="Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.27.png" width="300" />
+<img src="Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.30.png" width="300" />
+<img src="Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.21.38.png" width="300" />
+<img src="Simulator Screenshot - iPhone 17 Pro - 2025-11-29 at 10.22.00.png" width="300" />
